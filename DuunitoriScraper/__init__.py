@@ -3,6 +3,8 @@ import logging
 import azure.functions as func
 import requests
 from bs4 import BeautifulSoup
+import os
+import json
 # from helper_functions import *
 from DuunitoriScraper.helper_functions import *
 
@@ -23,7 +25,23 @@ def main(mytimer: func.TimerRequest) -> None:
 
             final_list_of_postings += scrape_postings(postings)
     except Exception as e:
-                logging.critical(f"Exception: {e.with_traceback}")
+                logging.critical(f"Exception: {e}")
+    current_directory = os.getcwd()
+
+    # Create the full path of the file
+    file_name = "posts2.json"
+    file_path = os.path.join(current_directory, file_name)
+
+    # Create the file
+    file = open(file_path, "w")
+
+    # Write the string to the file
+    #body = body.replace("\u200b", "")
+    json_string = json.dumps(final_list_of_postings, default=lambda x: x.__dict__)
+    file.write(json_string)
+
+    # Close the file
+    file.close()
 
 
 
