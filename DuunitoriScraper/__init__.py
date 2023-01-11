@@ -12,6 +12,7 @@ from DuunitoriScraper.storage_service import *
 def main(mytimer: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(
         tzinfo=datetime.timezone.utc).isoformat()
+    logging.info(f"Function DuunitoriScraper started at {utc_timestamp}")
     final_list_of_postings = []
     base_url = "https://duunitori.fi/tyopaikat?filter_salary=1&haku=Ohjelmointi%20ja%20ohjelmistokehitys%20(ala)"
 

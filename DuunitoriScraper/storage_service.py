@@ -1,10 +1,4 @@
-from azure.data.tables import TableServiceClient#, Entity
-import json
-
-def get_json(obj):
-  return json.loads(
-    json.dumps(obj, default=lambda o: getattr(o, '__dict__', str(o)))
-  )
+from azure.data.tables import TableServiceClient
 
 def store_postings(postings):
     #TODO generate new connection string and use env variable
