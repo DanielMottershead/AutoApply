@@ -5,14 +5,15 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import json
-# from helper_functions import *
+
 from DuunitoriScraper.helper_functions import *
+from DuunitoriScraper.storage_service import *
 
 def main(mytimer: func.TimerRequest) -> None:
     utc_timestamp = datetime.datetime.utcnow().replace(
         tzinfo=datetime.timezone.utc).isoformat()
     final_list_of_postings = []
-    base_url = "https://duunitori.fi/tyopaikat?filter_salary=1&haku=Ohjelmointi%20ja%20ohjelmistokehitys%20(ala)"#"https://duunitori.fi/tyopaikat?haku=software%20engineer"
+    base_url = "https://duunitori.fi/tyopaikat?filter_salary=1&haku=Ohjelmointi%20ja%20ohjelmistokehitys%20(ala)"
 
     try:
         pages_count = get_page_count(base_url)
@@ -26,24 +27,4 @@ def main(mytimer: func.TimerRequest) -> None:
             final_list_of_postings += scrape_postings(postings)
     except Exception as e:
                 logging.critical(f"Exception: {e}")
-    current_directory = os.getcwd()
-
-    # Create the full path of the file
-    file_name = "posts2.json"
-    file_path = os.path.join(current_directory, file_name)
-
-    # Create the file
-    file = open(file_path, "w")
-
-    # Write the string to the file
-    #body = body.replace("\u200b", "")
-    json_string = json.dumps(final_list_of_postings, default=lambda x: x.__dict__)
-    file.write(json_string)
-
-    # Close the file
-    file.close()
-
-
-
-
-
+    store_postings(final_list_of_postings)
