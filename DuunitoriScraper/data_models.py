@@ -1,6 +1,10 @@
 from dataclasses import dataclass
 
 @dataclass
+class Company:
+    name: str = ''
+
+@dataclass
 class SalaryRange:
     lower_bound: int
     upper_bound: int
@@ -10,8 +14,10 @@ class SalaryRange:
 
 @dataclass
 class JobPosting:
+    company: str = None
     job_id: str = ''
     job_title: str = ''
     posted: str = None
-    salary_range: SalaryRange = None
+    salary_range_low: int = None
+    salary_range_high: int = None
     link: str = ''

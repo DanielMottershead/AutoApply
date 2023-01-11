@@ -1,14 +1,16 @@
 from DuunitoriScraper.data_models import *
-from lxml import etree
 from bs4 import BeautifulSoup
 from datetime import date
 import requests
 import re
 
-def get_salary_range(uri: str) -> SalaryRange:
-    response = requests.get(uri)
-    posting = BeautifulSoup(response.text, "html.parser")
+def get_company_info(posting: BeautifulSoup) -> str:
+    info_block = posting.find_all("div", class_="1/1 1/3--desk grid__cell")[0]
+    name = info_block.find_all("h2")[0].get_text()
+    return name
 
+
+def get_salary_range(posting: BeautifulSoup) -> SalaryRange:
     pay_range_text: str =posting.find_all("p", class_="header__info")[-1].get_text()
     pay_range_text =pay_range_text.replace(" ", "")
 
@@ -42,8 +44,16 @@ def scrape_postings(postings: list) -> list[JobPosting]:
         posting_data.link = f"https://duunitori.fi{uri}"
         posting_data.posted = posted
 
+        #if the posting contains saley info, currently always true
         if(posting.find("span", class_="tag tag--salary tag--salary-icon") != None):
-            posting_data.salary_range =get_salary_range(posting_data.link)
+            response = requests.get(posting_data.link)
+            posting = BeautifulSoup(response.text, "html.parser")
+
+            salary_range = get_salary_range(posting)
+            posting_data.salary_range_low = salary_range.lower_bound
+            posting_data.salary_range_high = salary_range.upper_bound
+            
+            posting_data.company = get_company_info(posting)
 
         postings_to_return.append(posting_data)
 
@@ -52,4 +62,8 @@ def scrape_postings(postings: list) -> list[JobPosting]:
 def get_page_count(base_url: str) -> int:
     response = requests.get(base_url)
     soup = BeautifulSoup(response.text, "html.parser")
-    return int(soup.find_all("a", class_="pagination__pagenum")[-1].text)
+    page_count_elem = soup.find_all("a", class_="pagination__pagenum")
+    if(page_count_elem != None and len(page_count_elem) > 1):
+        return int(soup.find_all("a", class_="pagination__pagenum")[-1].text)
+    else:
+        return 1
