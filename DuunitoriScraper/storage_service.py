@@ -1,11 +1,13 @@
 from azure.data.tables import TableServiceClient
 import logging
 from DuunitoriScraper.data_models import JobPosting
+import os
 
 
 def store_postings(postings: list[JobPosting]):
     #TODO generate new connection string and use env variable
-    table_service_client = TableServiceClient.from_connection_string(conn_str="DefaultEndpointsProtocol=https;AccountName=jobpostingevents;AccountKey=NKyU9y+OTgp6Y1XvFX45fUvhko6gcjZqAkM4Am8E/0Rh4Ae8UM31O0hk6kK1wGItLscYdJxTdy5U+AStlu1cpQ==;EndpointSuffix=core.windows.net")
+    connection_str = os.environ.get("CONNECTION_STRING")
+    table_service_client = TableServiceClient.from_connection_string(conn_str=connection_str)
     table_client = table_service_client.get_table_client(table_name="Postings")
 
     failure_count = 0
