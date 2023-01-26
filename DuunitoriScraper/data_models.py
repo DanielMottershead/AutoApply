@@ -21,3 +21,4 @@ class JobPosting:
     salary_range_low: int = None
     salary_range_high: int = None
     link: str = ''
+    description: str = ''

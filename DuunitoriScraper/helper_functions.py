@@ -1,6 +1,7 @@
 from DuunitoriScraper.data_models import *
 from bs4 import BeautifulSoup
 from datetime import date
+import datetime
 import requests
 import re
 
@@ -9,6 +10,9 @@ def get_company_info(posting: BeautifulSoup) -> str:
     name = info_block.find_all("h2")[0].get_text()
     return name
 
+def get_description(posting: BeautifulSoup) -> str:
+    return posting.find("div", class_="gtm-apply-clicks description description--jobentry").get_text()
+    
 
 def get_salary_range(posting: BeautifulSoup) -> SalaryRange:
     pay_range_text: str =posting.find_all("p", class_="header__info")[-1].get_text()
@@ -36,7 +40,12 @@ def scrape_postings(postings: list) -> list[JobPosting]:
         posted = posting.find("span", class_="job-box__job-posted").get_text().split(" ")[1]
 
         if(len(posted) <= 6):
-            posted = f"{posted}{date.today().year}"
+            date_string  = f"{posted}{date.today().year}"
+            potential_date =  datetime.datetime.strptime(date_string, '%d.%m.%Y')
+            if potential_date <= datetime.datetime.today():
+                posted = date_string
+            else:
+                posted = f"{posted}{date.today().year-1}"
 
         posting_data = JobPosting()
         posting_data.job_id = uri.split("-")[-1]
@@ -54,6 +63,7 @@ def scrape_postings(postings: list) -> list[JobPosting]:
             posting_data.salary_range_high = salary_range.upper_bound
             
             posting_data.company = get_company_info(posting)
+            posting_data.description = get_description(posting)
 
         postings_to_return.append(posting_data)
 

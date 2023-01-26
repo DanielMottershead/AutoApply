@@ -17,7 +17,7 @@ def store_postings(postings: list[JobPosting]):
             json_entity['PartitionKey'] = i.company
             json_entity['RowKey']= i.job_id
         
-            table_client.create_entity(entity=json_entity)
+            table_client.upsert_entity(entity=json_entity)
         except Exception as e :
             failure_count += 1
             logging.exception(f"Adding entity: {i.job_id} failed. Reason: {e.with_traceback}")
