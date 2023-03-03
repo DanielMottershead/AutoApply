@@ -6,12 +6,18 @@ import requests
 import re
 
 def get_company_info(posting: BeautifulSoup) -> str:
-    info_block = posting.find_all("div", class_="1/1 1/3--desk grid__cell")[0]
-    name = info_block.find_all("h2")[0].get_text()
-    return name
+    try:
+        info_block = posting.find_all("div", class_="1/1 1/3--desk grid__cell")[0]
+        name = info_block.find_all("h2")[0].get_text()
+        return name
+    except:
+        return "Company name not automatically found"
 
 def get_description(posting: BeautifulSoup) -> str:
-    return posting.find("div", class_="gtm-apply-clicks description description--jobentry").get_text()
+    try:
+        return posting.find("div", class_="gtm-apply-clicks description description--jobentry").get_text()
+    except:
+        return "No description automatically found"
     
 
 def get_salary_range(posting: BeautifulSoup) -> SalaryRange:
