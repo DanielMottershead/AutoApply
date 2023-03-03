@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32811.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoApplyUI", "AutoApplyUI\AutoApplyUI.csproj", "{B66DF29E-D66E-48D4-918A-1D8BDED15289}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoApplyUI.API", "AutoApplyUI.API\AutoApplyUI.API.csproj", "{75EFBC8B-823F-4BEC-9609-688708CBF64C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B66DF29E-D66E-48D4-918A-1D8BDED15289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B66DF29E-D66E-48D4-918A-1D8BDED15289}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B66DF29E-D66E-48D4-918A-1D8BDED15289}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B66DF29E-D66E-48D4-918A-1D8BDED15289}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75EFBC8B-823F-4BEC-9609-688708CBF64C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75EFBC8B-823F-4BEC-9609-688708CBF64C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75EFBC8B-823F-4BEC-9609-688708CBF64C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75EFBC8B-823F-4BEC-9609-688708CBF64C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A4E14EF6-9642-458F-9200-73F9A9A3FB8D}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,31 @@
+﻿@using Index = AutoApplyUI.Pages.Index
+<section>
+    @if (Postings is not null)
+    {
+        <table>
+            <thead style="display: contents">
+            <tr>
+                <th>Company</th>
+                <th>Job title</th>
+                <th>Salary (euros)</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var posting in Postings)
+            {
+                <tr>
+                    <td>@posting.CompanyName</td>
+                    <td>@posting.JobTitle</td>
+                    <td>@posting.SalaryRangeBot - @posting.SalaryRangeTop</td>
+                </tr>
+                <tr><td><p>@posting.Description</p></td></tr>
+            }
+            </tbody>
+        </table>
+    }
+</section>
+
+@code {
+    [Parameter]
+    public List<Index.Posting>? Postings { get; set; }
+}

@@ -1,0 +1,43 @@
+﻿@page "/"
+@using Azure
+@using System.Text.Json.Serialization
+@using System.Text.Json
+
+<PageTitle>Index</PageTitle>
+
+@if (Postings is not null)
+{
+    <DisplayPostings Postings="@Postings"/>
+}
+@code
+{
+    public List<Posting>? Postings { get; set; }
+    public class Posting
+    {
+        public string CompanyName { get; set; }
+        public int SalaryRangeTop { get; set; }
+        public int SalaryRangeBot { get; set; }
+        public string JobTitle { get; set; }
+        public string Description { get; set; }
+    }
+    private List<TableEntity> _jobs = new List<TableEntity>();
+    protected override async Task OnInitializedAsync()
+    {
+        HttpClient client = new HttpClient()
+        {
+                BaseAddress = new Uri("https://localhost:7110/")
+        };
+        var options = new JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+        var response = await client.GetAsync("api/Postings/retrieveAll");
+        response.EnsureSuccessStatusCode();
+        Postings = JsonSerializer.Deserialize<List<Posting>>(await response.Content.ReadAsStreamAsync(), options);
+
+    //_jobs.AddRange());
+
+
+    }
+
+}
