@@ -17,7 +17,7 @@ public class OpenAiService
             RequestUri = new Uri("https://api.openai.com/v1/completions"),
             Method = HttpMethod.Post,
             Headers = {
-                { "Authorization", $"Bearer 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" }
+                { "Authorization", "Bearer " }
             },
             Content = new StringContent(y, Encoding.UTF8, "application/json")
         };
